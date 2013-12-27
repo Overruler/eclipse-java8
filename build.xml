@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Java 8 Eclipse Patches, setting and unsetting parent
+    
+     Sets or unsets patched parent artifact name for use during Maven build.
+                   
+     Timo Kinnunen                                                                
+     ====================================================================== -->
+<project name="eclipse-java8" default="change-to-java8-eclipse">
+    <description>
+        Maven build needs a custom parent setting in pom.xml, but
+    	this value isn't useful while developing in Eclipse. This is a 
+    	problem when both versions are using the same git repositories. 
+    	This Ant script can be used to switch the pom.xml files between 
+    	these usages when needed.
+    </description>
+
+    <!-- ================================= 
+          target: change-to-eclipse8              
+         ================================= -->
+    <target name="change-to-java8-eclipse"
+            description="Replaces eclipse-platform-parent with java8-eclipse-platform-parent">
+        <replace casesensitive="yes"
+                 token="&gt;eclipse-platform-parent&lt;"
+                 value="&gt;java8-eclipse-platform-parent&lt;"
+                 dir="git"
+                 includes="*/pom.xml"
+                 excludes="eclipse-platform-parent*/pom.xml">
+        </replace>
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: change-to-eclipse              
+         - - - - - - - - - - - - - - - - - -->
+    <target name="change-to-eclipse"
+            description="Replaces java8-eclipse-platform-parent with eclipse-platform-parent">
+        <replace casesensitive="yes"
+                 token="&gt;java8-eclipse-platform-parent&lt;"
+                 value="&gt;eclipse-platform-parent&lt;"
+                 dir="git"
+                 includes="*/pom.xml"
+                 excludes="eclipse-platform-parent*/pom.xml">
+        </replace>
+    </target>
+
+</project>
