@@ -50,6 +50,7 @@
 @exit /B 0
 
 :End
+@pause
 @exit /B 0
 
 
