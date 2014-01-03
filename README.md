@@ -12,13 +12,13 @@ repositories on git.eclipse.org.
 You will need a JDK8 to run the build. (Required to build org.eclipse.jdt.annotation plugin
 in the jdt.core feature patch).
 
- 1. Using Eclipse SDK 4.3.1 clone:
-	1. eclipse-java8, that is this repository.
-	2. eclipse.jdt.core, BETA_JAVA8 branch.
-	3. eclipse.jdt.debug, BETA_JAVA8 branch.
-	4. eclipse.jdt.ui, BETA_JAVA8 branch.
-	5. rt.equinox.framework, BETA_JAVA8 branch.
-	6. eclipse.pde.ui, BETA_JAVA8 branch.
+ 1. Using [Eclipse SDK 4.3.1](http://download.eclipse.org/eclipse/downloads/drops4/R-4.3.1-201309111000/download.php?dropFile=eclipse-SDK-4.3.1-win32-x86_64.zip) clone:
+	1. https://github.com/Overruler/eclipse-java8.git (this repository).
+	2. https://github.com/Overruler/eclipse.jdt.core.git (eclipse.jdt.core, BETA_JAVA8 branch).
+	3. https://github.com/Overruler/eclipse.jdt.debug.git (eclipse.jdt.debug, BETA_JAVA8 branch).
+	4. https://github.com/Overruler/eclipse.jdt.ui.git (eclipse.jdt.ui, BETA_JAVA8 branch).
+	5. https://github.com/Overruler/rt.equinox.framework.git (rt.equinox.framework, BETA_JAVA8 branch).
+	6. https://github.com/Overruler/eclipse.pde.ui.git (eclipse.pde.ui, BETA_JAVA8 branch).
  2. Open the `git` subdirectory of this repository and run the script `java8-link.cmd`.
     This creates directory junctions linking the aforementioned repositories. Creating junctions 
     requires administrative privileges.
