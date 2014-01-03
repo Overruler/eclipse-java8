@@ -13,20 +13,20 @@ You will need a JDK8 to run the build. (Required to build org.eclipse.jdt.annota
 in the jdt.core feature patch).
 
  1. Using Eclipse SDK 4.3.1 clone:
- 1.1. this repo.
+ 1.1. this repository.
  1.2. eclipse.jdt.core, BETA_JAVA8 branch.
  1.3. eclipse.jdt.debug, BETA_JAVA8 branch.
  1.4. eclipse.jdt.ui, BETA_JAVA8 branch.
  1.5. rt.equinox.framework, BETA_JAVA8 branch.
  1.6. eclipse.pde.ui, BETA_JAVA8 branch.
- 2. cd into the `git` subdirectory of this repo and run the script `java8-link.cmd`.
-    This creates directory junctions linking the aforementioned repos. Creating junctions 
+ 2. Open the `git` subdirectory of this repository and run the script `java8-link.cmd`.
+    This creates directory junctions linking the aforementioned repositories. Creating junctions 
     requires administrative privileges.
  3. From Eclipse, run the Ant script `build.xml`. This changes the parent artifact
     name for Maven build. The `build.xml` script also has a target to undo this change.
  4. From Eclipse, run Maven on the `pom.xml` file with goals `clean install`.
     
- Upon succesfull completion an update site is built in 
+ Upon successful completion an update site is built in 
    `org.springsource.ide.eclipse.java8.site/target/site`
    
  The contents of this site can be installed into an Eclipse 4.3 instance.
