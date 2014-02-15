@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright (c) 2012 Eclipse Foundation.
+  Copyright (c) 2012, 2014 Eclipse Foundation and others.
   All rights reserved. This program and the accompanying materials
   are made available under the terms of the Eclipse Distribution License v1.0
   which accompanies this distribution, and is available at
@@ -15,41 +15,68 @@
   <artifactId>java8-eclipse-platform-parent</artifactId>
   <version>4.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <prerequisites>
+    <maven>3.0.5</maven>
+  </prerequisites>
   <properties>
     <maven.test.skip>true</maven.test.skip>
     <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
     <buildType>I</buildType>
     <buildId>${buildType}${buildTimestamp}</buildId>
-    <tycho.version>0.18.1</tycho.version>
-    <tycho-extras.version>0.18.1</tycho-extras.version>
+    <tycho.version>0.20.0-SNAPSHOT</tycho.version>
+    <tycho-extras.version>0.20.0-SNAPSHOT</tycho-extras.version>
+
     <cbi-plugins.version>1.0.4</cbi-plugins.version>
     <!-- 
       The tycho-eclipserun-plugin will create its instance of Eclipse from this 
       'eclipiserun-repo' repository, such as for computing .api-descriptions.
     -->
-    <eclipserun-repo>http://download.eclipse.org/eclipse/updates/4.3/R-4.3-201306052000/</eclipserun-repo>
+    <eclipserun-repo>http://download.eclipse.org/eclipse/updates/4.3/R-4.3.1-201309111000/</eclipserun-repo>
 
-    <comparator.repo>http://download.eclipse.org/eclipse/updates/4.4-I-builds</comparator.repo>
+    <comparator.repo>http://download.eclipse.org/eclipse/updates/4.3-M-builds</comparator.repo>
 
+    <!-- 
     <orbit-repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/</orbit-repo.url>
     <jetty-repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-8.x/8.1.10.v20130312/</jetty-repo.url>
     <ecf-repo.url>http://download.eclipse.org/rt/ecf/int7/site.p2/</ecf-repo.url>
-    <emf-repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.9/base/R201305280742/</emf-repo.url>
     <aspectj-repo.url>http://download.eclipse.org/tools/ajdt/aspectj/update/e42</aspectj-repo.url>
     <egit-repo.url>http://download.eclipse.org/egit/staging/v3.0.0.201305080800-m7</egit-repo.url>
-    <!--old:  <license-repo.url>http://download.eclipse.org/eclipse/updates/license</license-repo.url> -->
     <license-repo.url>http://download.eclipse.org/cbi/updates/license/</license-repo.url>
-    
+    -->
+    <emf-repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.9.x/base/R201312120545/</emf-repo.url>
+
     <tycho-repo.url>https://oss.sonatype.org/content/repositories/public/</tycho-repo.url>
-   
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <cbi-jdt-repo.url>https://repo.eclipse.org/content/repositories/eclipse-staging/</cbi-jdt-repo.url>
-    <cbi-jdt-version>3.9.0.v20130604-1421</cbi-jdt-version>
+    <cbi-jdt-repo.url>http://build.eclipse.org/eclipse/jdtx/</cbi-jdt-repo.url>
+    <cbi-jdt-version>3.9.2.v20140213-1115</cbi-jdt-version>
     <eclipse-repo.url>https://repo.eclipse.org/content/repositories/releases/</eclipse-repo.url>
-    <cbi-snapshots-repo.url>https://repo.eclipse.org/content/repositories/cbi-snapshots/</cbi-snapshots-repo.url>
     <!-- this eclipse-p2-repo.url is specifically for the build individual bundles profile. -->
-    <eclipse-p2-repo.url>http://download.eclipse.org/eclipse/updates/4.4-I-builds</eclipse-p2-repo.url>
+    <eclipse-p2-repo.url>http://download.eclipse.org/eclipse/updates/4.3-M-builds</eclipse-p2-repo.url>
+
+    <!-- 
+       Production bundles are produced by ignoring the compiler warnings specified
+       by ${code.ignoredWarnings} (see further down).
+       Good citizens don't override those default settings for their production bundles.
+    -->
+    <code.ignoredWarnings>-warn:-deprecation,raw,unchecked</code.ignoredWarnings>
+
+    <!-- 
+       Test bundles may override the list of ignored warnings by setting the <code.ignoredWarnings> property to ${tests.ignoredWarnings}:
+             <properties>
+               <code.ignoredWarnings>${tests.ignoredWarnings}</code.ignoredWarnings>
+             </properties>
+       Good citizens use those default settings for their test bundles.
+    -->
+    <tests.ignoredWarnings>-warn:-deprecation,raw,unchecked</tests.ignoredWarnings>
+
+    <!--
+        Valid options: error, warning, and ignore
+        jgit.dirtyWorkingTree checking was added as of Tycho 0.19.0
+        see: https://bugs.eclipse.org/419030
+    -->
+    <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree>
 
   </properties>
   <repositories>
@@ -61,6 +88,7 @@
       <layout>p2</layout>
     </repository>
     <!-- END Java 8 Build -->
+    <!-- 
     <repository>
       <id>orbit</id>
       <url>${orbit-repo.url}</url>
@@ -92,11 +120,11 @@
       <layout>p2</layout>
     </repository>
     <repository>
-      <!-- aspectj is used by some rt.equinox.bundles and is required by sdk-tests feature -->
       <id>aspectj</id>
       <url>${aspectj-repo.url}</url>
       <layout>p2</layout>
     </repository>
+    -->
   </repositories>
   <distributionManagement>
     <repository>
@@ -112,7 +140,7 @@
   </distributionManagement>
   <pluginRepositories>
     <pluginRepository>
-      <id>tycho</id>
+      <id>tycho-staged</id>
       <url>${tycho-repo.url}</url>
       <releases>
         <enabled>true</enabled>
@@ -127,13 +155,6 @@
       <releases>
         <enabled>true</enabled>
       </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>cbi-snapshots</id>
-      <url>${cbi-snapshots-repo.url}</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -173,6 +194,13 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
         <configuration>
+          <target>
+            <artifact>
+              <groupId>org.eclipse</groupId>
+              <artifactId>eclipse-sdk-prereqs</artifactId>
+              <version>4.3.0-SNAPSHOT</version>
+            </artifact>
+          </target>
           <environments>
             <environment>
               <os>linux</os>
@@ -308,7 +336,7 @@
             </dependency>
           </dependencies>
           <configuration>
-            <compilerArgument>-warn:-deprecation,raw,unchecked</compilerArgument>
+            <compilerArgument>${code.ignoredWarnings}</compilerArgument>
             <compilerArguments>
               <verbose/>
               <inlineJSR/>
@@ -350,6 +378,7 @@
             <jgit.ignore>
 		pom.xml
             </jgit.ignore>
+            <jgit.dirtyWorkingTree>${jgit.dirtyWorkingTree}</jgit.dirtyWorkingTree>
             <sourceReferences>
               <generate>true</generate>
             </sourceReferences>
@@ -417,20 +446,6 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.eclipse.tycho.extras</groupId>
-          <artifactId>tycho-custom-bundle-plugin</artifactId>
-          <version>${tycho-extras.version}</version>
-            <configuration>
-                <baselineMode>warn</baselineMode>
-                <baselineReplace>none</baselineReplace>
-                <baselineRepositories>
-                    <repository>
-                        <url>${comparator.repo}</url>
-                    </repository>
-                </baselineRepositories>
-            </configuration>
-        </plugin>
-        <plugin>
           <groupId>org.eclipse.tycho</groupId>
           <artifactId>tycho-p2-plugin</artifactId>
           <version>${tycho.version}</version>
@@ -460,6 +475,20 @@
     </pluginManagement>
   </build>
   <profiles>
+    <profile>
+      <id>patchBuild</id>
+      <repositories>
+        <repository>
+        <!-- use "final release" repository to pull things we are not 
+        rebuilding. Had to put this in parent, or else all patched bundles would need to 
+        reparent. 
+        -->
+       <id>eclipse432</id>
+       <url>http://download.eclipse.org/eclipse/updates/4.3-M-builds/M20140212-0800/</url>
+       <layout>p2</layout>
+        </repository>
+      </repositories>
+    </profile>
     <profile>
       <id>build-individual-bundles</id>
       <repositories>
@@ -676,7 +705,7 @@
             <groupId>org.eclipse.tycho.extras</groupId>
             <artifactId>tycho-eclipserun-plugin</artifactId>
             <!-- this is actually present in any 0.14+ version -->
-            <version>${tycho.version}</version>
+            <version>${tycho-extras.version}</version>
             <configuration>
               <repositories>
                 <repository>
@@ -726,7 +755,7 @@
               </execution>
             </executions>
           </plugin>
-        </plugins>        
+        </plugins>
     <resources>
       <!-- 
            This task is to save properties we are explicitly interested in using later, 
@@ -739,7 +768,7 @@
         <filtering>true</filtering>
       </resource>
     </resources>
-        
+
       </build>
     </profile>
   </profiles>
